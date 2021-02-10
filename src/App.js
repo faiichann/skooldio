@@ -1,25 +1,47 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { Component } from "react";
+import axios from 'axios';
+import eng from './engi@2x.png';
 
-function App() {
+export class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      list: []
+    }
+  }
+  async componentDidMount() {
+    axios.get("https://tcas-assets.skooldio.com/tmp/mock_tcaster_api.json")
+    .then(res=>{
+      console.log(res);
+      this.setState({list:res.data});
+  });
+  }
+
+render() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="contariner">
+            {this.state.list.map(list=>(
+                    <div key={list.id} className="card">
+                       <div className="row">
+                         <img src={list.logo}/>
+                       <h1 className="title">{list.name}</h1> 
+                         </div>
+                       <div className="line"/>
+                       <div className="row">
+                         <p>รอบที่เปิด </p>
+                        <div className="Oval-2 ">
+                          1
+                       </div>
+                    </div>
+                    </div>
+                ))}
+      </div>
     </div>
   );
+  } 
+
 }
 
 export default App;
